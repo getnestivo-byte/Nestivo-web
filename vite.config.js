@@ -4,6 +4,6 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: process.env.GITHUB_ACTIONS ? '/nestivo-web/' : '/',
+  base: process.env.GITHUB_ACTIONS ? '/Nestivo-web/' : '/',
   plugins: [react(), tailwindcss()],
 })
