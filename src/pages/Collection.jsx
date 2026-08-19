@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { fetchCollectionById, fetchProductsByCollection } from "../lib/productService.js";
 import ProductCard from "../components/ProductCard.jsx";
 import Reveal from "../components/Reveal.jsx";
+import Seo from "../components/Seo.jsx";
 import NotFound from "./NotFound.jsx";
 
 export default function Collection() {
@@ -29,10 +30,11 @@ export default function Collection() {
 
   return (
     <section>
+      <Seo title={collection.name} description={collection.description} />
       <div className="relative h-[45vh] min-h-[320px] w-full overflow-hidden">
         <img
           src={collection.image}
-          alt={collection.name}
+          alt={`${collection.name} collection — ${collection.description}`}
           className="h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-charcoal/20 to-transparent" />

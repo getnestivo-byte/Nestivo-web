@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchAllProducts } from "../lib/productService.js";
 import ProductCard from "../components/ProductCard.jsx";
 import Reveal from "../components/Reveal.jsx";
+import Seo from "../components/Seo.jsx";
 
 export default function Shop() {
   const [products, setProducts] = useState([]);
@@ -18,6 +19,10 @@ export default function Shop() {
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-16 md:px-8 md:py-24">
+      <Seo
+        title="Shop"
+        description="Browse all Nestivo tees — city-map grids and retro badge designs, printed on heavyweight cotton."
+      />
       <Reveal className="mb-12">
         <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-brown">
           All Products

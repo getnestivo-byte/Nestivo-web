@@ -6,7 +6,7 @@ export default function ProductCard({ product }) {
       <div className="aspect-[4/5] w-full overflow-hidden rounded-xl bg-cream-dark">
         <img
           src={product.images[0]}
-          alt={product.name}
+          alt={`${product.name} — Nestivo tee, $${product.price}`}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
       </div>

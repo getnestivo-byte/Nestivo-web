@@ -8,7 +8,7 @@ export default function CollectionCard({ collection }) {
     >
       <img
         src={collection.image}
-        alt={collection.name}
+        alt={`${collection.name} collection — ${collection.description}`}
         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-charcoal/10 to-transparent" />

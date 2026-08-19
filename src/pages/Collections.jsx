@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { fetchCollections } from "../lib/productService.js";
 import CollectionCard from "../components/CollectionCard.jsx";
 import Reveal from "../components/Reveal.jsx";
+import Seo from "../components/Seo.jsx";
 
 export default function Collections() {
   const [collections, setCollections] = useState([]);
@@ -18,6 +19,10 @@ export default function Collections() {
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-16 md:px-8 md:py-24">
+      <Seo
+        title="Collections"
+        description="Explore Nestivo's collections: Cities, Retro Badges, and Monochrome."
+      />
       <Reveal className="mb-12">
         <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-brown">
           Explore

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { InstagramIcon, TiktokIcon, PinterestIcon } from "./icons.jsx";
+import { CONTACT_EMAIL, POLICY_URLS } from "../lib/shopify.js";
 
 const COLUMNS = [
   {
@@ -14,21 +15,39 @@ const COLUMNS = [
   {
     title: "Help",
     links: [
-      { label: "Shipping", to: "#" },
-      { label: "Returns", to: "#" },
-      { label: "Size Guide", to: "#" },
-      { label: "Contact", to: "#" },
+      { label: "Shipping Info", to: POLICY_URLS.shipping, external: true },
+      { label: "Returns Policy", to: POLICY_URLS.returns, external: true },
+      { label: "Contact", to: "/contact" },
     ],
   },
   {
     title: "Company",
     links: [
       { label: "About", to: "/about" },
-      { label: "Sustainability", to: "#" },
-      { label: "Wholesale", to: "#" },
+      { label: "Sustainability", disabled: true },
+      { label: "Wholesale", disabled: true },
     ],
   },
 ];
+
+function FooterLink({ link }) {
+  const className = "text-sm text-charcoal/60 hover:text-charcoal";
+  if (link.disabled) {
+    return <span className="text-sm text-charcoal/30">{link.label}</span>;
+  }
+  if (link.external) {
+    return (
+      <a href={link.to} target="_blank" rel="noopener noreferrer" className={className}>
+        {link.label}
+      </a>
+    );
+  }
+  return (
+    <Link to={link.to} className={className}>
+      {link.label}
+    </Link>
+  );
+}
 
 export default function Footer() {
   return (
@@ -42,6 +61,12 @@ export default function Footer() {
             <p className="mt-3 max-w-xs text-sm text-charcoal/60">
               Minimalist apparel inspired by city maps and retro travel badges.
             </p>
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="mt-3 block text-sm text-charcoal/60 hover:text-charcoal"
+            >
+              {CONTACT_EMAIL}
+            </a>
             <div className="mt-5 flex gap-4">
               <a aria-label="Instagram" href="#" className="text-charcoal/70 hover:text-charcoal">
                 <InstagramIcon className="h-5 w-5" />
@@ -63,9 +88,7 @@ export default function Footer() {
               <ul className="mt-4 space-y-2.5">
                 {col.links.map((link) => (
                   <li key={link.label}>
-                    <Link to={link.to} className="text-sm text-charcoal/60 hover:text-charcoal">
-                      {link.label}
-                    </Link>
+                    <FooterLink link={link} />
                   </li>
                 ))}
               </ul>
@@ -76,8 +99,22 @@ export default function Footer() {
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-charcoal/10 pt-6 text-xs text-charcoal/50 sm:flex-row">
           <p>© {new Date().getFullYear()} Nestivo. All rights reserved.</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-charcoal">Privacy</a>
-            <a href="#" className="hover:text-charcoal">Terms</a>
+            <a
+              href={POLICY_URLS.privacy}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-charcoal"
+            >
+              Privacy Policy
+            </a>
+            <a
+              href={POLICY_URLS.terms}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-charcoal"
+            >
+              Terms of Service
+            </a>
           </div>
         </div>
       </div>

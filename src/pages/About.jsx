@@ -1,8 +1,13 @@
 import Reveal from "../components/Reveal.jsx";
+import Seo from "../components/Seo.jsx";
 
 export default function About() {
   return (
     <section className="mx-auto max-w-3xl px-6 py-16 md:px-8 md:py-24">
+      <Seo
+        title="About"
+        description="The story behind Nestivo: hand-traced city maps and redrawn travel badges, printed in small batches on heavyweight cotton."
+      />
       <Reveal>
         <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-brown">
           About Nestivo

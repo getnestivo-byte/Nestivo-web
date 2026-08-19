@@ -6,6 +6,7 @@ import Product from "./pages/Product.jsx";
 import Collections from "./pages/Collections.jsx";
 import Collection from "./pages/Collection.jsx";
 import About from "./pages/About.jsx";
+import Contact from "./pages/Contact.jsx";
 import NotFound from "./pages/NotFound.jsx";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="collections" element={<Collections />} />
           <Route path="collections/:id" element={<Collection />} />
           <Route path="about" element={<About />} />
+          <Route path="contact" element={<Contact />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

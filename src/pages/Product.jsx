@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { fetchProductByHandle } from "../lib/productService.js";
+import { productUrl } from "../lib/shopify.js";
+import Seo from "../components/Seo.jsx";
 import NotFound from "./NotFound.jsx";
 
 export default function Product() {
@@ -8,14 +10,12 @@ export default function Product() {
   const [product, setProduct] = useState(undefined);
   const [activeImage, setActiveImage] = useState(0);
   const [size, setSize] = useState(null);
-  const [added, setAdded] = useState(false);
 
   useEffect(() => {
     let active = true;
     setProduct(undefined);
     setActiveImage(0);
     setSize(null);
-    setAdded(false);
     fetchProductByHandle(handle).then((data) => {
       if (active) setProduct(data);
     });
@@ -27,14 +27,19 @@ export default function Product() {
   if (product === null) return <NotFound />;
   if (product === undefined) return null;
 
-  function handleAddToBag(e) {
-    e.preventDefault();
-    // UI only — no cart/checkout logic wired up yet.
-    setAdded(true);
-  }
+  // Links out to the real Shopify storefront, where cart/checkout actually
+  // lives. Selected size is passed through as a query param so it can be
+  // pre-filled once the real product page is wired up.
+  const checkoutUrl = size
+    ? `${productUrl(product.handle)}?size=${encodeURIComponent(size)}`
+    : productUrl(product.handle);
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-16 md:px-8 md:py-24">
+      <Seo
+        title={product.name}
+        description={`${product.description} $${product.price}.`}
+      />
       <Link
         to={`/collections/${product.collection}`}
         className="mb-8 inline-block text-sm font-medium uppercase tracking-wide text-charcoal/60 hover:text-charcoal"
@@ -47,7 +52,7 @@ export default function Product() {
           <div className="aspect-[4/5] w-full overflow-hidden rounded-2xl bg-cream-dark">
             <img
               src={product.images[activeImage]}
-              alt={product.name}
+              alt={`${product.name} — Nestivo tee, view ${activeImage + 1}`}
               className="h-full w-full object-cover"
             />
           </div>
@@ -62,7 +67,11 @@ export default function Product() {
                     i === activeImage ? "border-charcoal" : "border-transparent"
                   }`}
                 >
-                  <img src={image} alt="" className="h-full w-full object-cover" />
+                  <img
+                    src={image}
+                    alt={`${product.name} thumbnail ${i + 1}`}
+                    className="h-full w-full object-cover"
+                  />
                 </button>
               ))}
             </div>
@@ -97,20 +106,32 @@ export default function Product() {
                 </button>
               ))}
             </div>
-          </div>
-
-          <form onSubmit={handleAddToBag}>
-            <button
-              type="submit"
-              disabled={!size}
-              className="mt-8 w-full rounded-full bg-charcoal px-8 py-3.5 text-sm font-medium uppercase tracking-wide text-cream transition-colors hover:bg-brown disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto"
-            >
-              {added ? "Added to Bag" : "Add to Bag"}
-            </button>
             {!size && (
               <p className="mt-2 text-xs text-charcoal/50">Select a size to continue.</p>
             )}
-          </form>
+          </div>
+
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a
+              href={checkoutUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block rounded-full border border-charcoal px-8 py-3.5 text-center text-sm font-medium uppercase tracking-wide text-charcoal transition-colors hover:bg-charcoal hover:text-cream"
+            >
+              Add to Cart
+            </a>
+            <a
+              href={checkoutUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block rounded-full bg-charcoal px-8 py-3.5 text-center text-sm font-medium uppercase tracking-wide text-cream transition-colors hover:bg-brown"
+            >
+              Buy Now
+            </a>
+          </div>
+          <p className="mt-3 text-xs text-charcoal/50">
+            Opens our Shopify store to complete checkout.
+          </p>
         </div>
       </div>
     </section>
