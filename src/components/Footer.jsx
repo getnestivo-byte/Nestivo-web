@@ -1,17 +1,32 @@
+import { Link } from "react-router-dom";
 import { InstagramIcon, TiktokIcon, PinterestIcon } from "./icons.jsx";
 
 const COLUMNS = [
   {
     title: "Shop",
-    links: ["All Products", "Cities", "Retro Badges", "New Arrivals"],
+    links: [
+      { label: "All Products", to: "/shop" },
+      { label: "Cities", to: "/collections/cities" },
+      { label: "Retro Badges", to: "/collections/retro-badges" },
+      { label: "Monochrome", to: "/collections/monochrome" },
+    ],
   },
   {
     title: "Help",
-    links: ["Shipping", "Returns", "Size Guide", "Contact"],
+    links: [
+      { label: "Shipping", to: "#" },
+      { label: "Returns", to: "#" },
+      { label: "Size Guide", to: "#" },
+      { label: "Contact", to: "#" },
+    ],
   },
   {
     title: "Company",
-    links: ["About", "Sustainability", "Wholesale"],
+    links: [
+      { label: "About", to: "/about" },
+      { label: "Sustainability", to: "#" },
+      { label: "Wholesale", to: "#" },
+    ],
   },
 ];
 
@@ -21,9 +36,9 @@ export default function Footer() {
       <div className="mx-auto max-w-6xl px-6 py-16 md:px-8">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-5">
           <div className="col-span-2">
-            <a href="#top" className="font-display text-2xl font-semibold text-charcoal">
+            <Link to="/" className="font-display text-2xl font-semibold text-charcoal">
               Nestivo
-            </a>
+            </Link>
             <p className="mt-3 max-w-xs text-sm text-charcoal/60">
               Minimalist apparel inspired by city maps and retro travel badges.
             </p>
@@ -47,10 +62,10 @@ export default function Footer() {
               </h4>
               <ul className="mt-4 space-y-2.5">
                 {col.links.map((link) => (
-                  <li key={link}>
-                    <a href="#" className="text-sm text-charcoal/60 hover:text-charcoal">
-                      {link}
-                    </a>
+                  <li key={link.label}>
+                    <Link to={link.to} className="text-sm text-charcoal/60 hover:text-charcoal">
+                      {link.label}
+                    </Link>
                   </li>
                 ))}
               </ul>

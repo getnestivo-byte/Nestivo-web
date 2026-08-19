@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
   return (
-    <section id="top" className="mx-auto max-w-6xl px-6 pb-20 pt-14 md:px-8 md:pb-28 md:pt-20">
+    <section className="mx-auto max-w-6xl px-6 pb-20 pt-14 md:px-8 md:pb-28 md:pt-20">
       <div className="grid items-center gap-12 md:grid-cols-2 md:gap-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -21,12 +22,12 @@ export default function Hero() {
             Minimalist tees inspired by city grids and retro travel badges.
             Printed on heavyweight cotton, designed to last longer than the trend.
           </p>
-          <a
-            href="#shop"
+          <Link
+            to="/shop"
             className="mt-8 inline-block rounded-full bg-charcoal px-8 py-3.5 text-sm font-medium uppercase tracking-wide text-cream transition-colors hover:bg-brown"
           >
             Shop the Collection
-          </a>
+          </Link>
         </motion.div>
 
         <motion.div

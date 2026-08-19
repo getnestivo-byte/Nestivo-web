@@ -1,22 +1,28 @@
-import Nav from "./components/Nav.jsx";
-import Hero from "./components/Hero.jsx";
-import FeaturedCollection from "./components/FeaturedCollection.jsx";
-import OurStory from "./components/OurStory.jsx";
-import CollectionTiles from "./components/CollectionTiles.jsx";
-import EmailSignup from "./components/EmailSignup.jsx";
-import Footer from "./components/Footer.jsx";
+import { HashRouter, Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout.jsx";
+import Home from "./pages/Home.jsx";
+import Shop from "./pages/Shop.jsx";
+import Product from "./pages/Product.jsx";
+import Collections from "./pages/Collections.jsx";
+import Collection from "./pages/Collection.jsx";
+import About from "./pages/About.jsx";
+import NotFound from "./pages/NotFound.jsx";
 
 function App() {
   return (
-    <div className="min-h-screen bg-cream text-charcoal">
-      <Nav />
-      <Hero />
-      <FeaturedCollection />
-      <OurStory />
-      <CollectionTiles />
-      <EmailSignup />
-      <Footer />
-    </div>
+    <HashRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="shop" element={<Shop />} />
+          <Route path="products/:handle" element={<Product />} />
+          <Route path="collections" element={<Collections />} />
+          <Route path="collections/:id" element={<Collection />} />
+          <Route path="about" element={<About />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </HashRouter>
   );
 }
 

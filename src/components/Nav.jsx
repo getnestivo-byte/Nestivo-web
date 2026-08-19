@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
 import { CartIcon, MenuIcon, CloseIcon } from "./icons.jsx";
 
 const LINKS = [
-  { label: "Shop", href: "#shop" },
-  { label: "Collections", href: "#collections" },
-  { label: "About", href: "#story" },
+  { label: "Shop", to: "/shop" },
+  { label: "Collections", to: "/collections" },
+  { label: "About", to: "/about" },
 ];
 
 export default function Nav() {
@@ -13,19 +14,23 @@ export default function Nav() {
   return (
     <header className="sticky top-0 z-50 border-b border-charcoal/10 bg-cream/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 md:px-8">
-        <a href="#top" className="font-display text-2xl font-semibold tracking-tight text-charcoal">
+        <Link to="/" className="font-display text-2xl font-semibold tracking-tight text-charcoal">
           Nestivo
-        </a>
+        </Link>
 
         <nav className="hidden items-center gap-10 md:flex">
           {LINKS.map((link) => (
-            <a
+            <NavLink
               key={link.label}
-              href={link.href}
-              className="text-sm font-medium uppercase tracking-wide text-charcoal/80 transition-colors hover:text-charcoal"
+              to={link.to}
+              className={({ isActive }) =>
+                `text-sm font-medium uppercase tracking-wide transition-colors hover:text-charcoal ${
+                  isActive ? "text-charcoal" : "text-charcoal/80"
+                }`
+              }
             >
               {link.label}
-            </a>
+            </NavLink>
           ))}
         </nav>
 
@@ -46,14 +51,14 @@ export default function Nav() {
       {open && (
         <nav className="flex flex-col gap-1 border-t border-charcoal/10 bg-cream px-6 py-4 md:hidden">
           {LINKS.map((link) => (
-            <a
+            <NavLink
               key={link.label}
-              href={link.href}
+              to={link.to}
               onClick={() => setOpen(false)}
               className="py-2 text-sm font-medium uppercase tracking-wide text-charcoal/80"
             >
               {link.label}
-            </a>
+            </NavLink>
           ))}
         </nav>
       )}

@@ -1,8 +1,9 @@
+import { Link } from "react-router-dom";
 import Reveal from "./Reveal.jsx";
 
 export default function OurStory() {
   return (
-    <section id="story" className="bg-cream-dark">
+    <section className="bg-cream-dark">
       <div className="mx-auto max-w-3xl px-6 py-20 text-center md:px-8 md:py-28">
         <Reveal>
           <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-brown">
@@ -18,6 +19,12 @@ export default function OurStory() {
             overprinting — just small runs, heavyweight cotton, and designs
             we'd wear ourselves.
           </p>
+          <Link
+            to="/about"
+            className="mt-6 inline-block text-sm font-medium uppercase tracking-wide text-brown hover:text-charcoal"
+          >
+            Read more
+          </Link>
         </Reveal>
       </div>
     </section>
