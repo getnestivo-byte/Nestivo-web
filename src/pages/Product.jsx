@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { fetchProductByHandle } from "../lib/productService.js";
-import { productUrl } from "../lib/shopify.js";
+import { buildCartCheckoutUrl } from "../lib/shopify.js";
+import { isProductAvailable, useCart } from "../context/CartContext.jsx";
 import Seo from "../components/Seo.jsx";
 import NotFound from "./NotFound.jsx";
 
@@ -10,6 +11,7 @@ export default function Product() {
   const [product, setProduct] = useState(undefined);
   const [activeImage, setActiveImage] = useState(0);
   const [size, setSize] = useState(null);
+  const { addItem } = useCart();
 
   useEffect(() => {
     let active = true;
@@ -27,12 +29,19 @@ export default function Product() {
   if (product === null) return <NotFound />;
   if (product === undefined) return null;
 
-  // Links out to the real Shopify storefront, where cart/checkout actually
-  // lives. Selected size is passed through as a query param so it can be
-  // pre-filled once the real product page is wired up.
-  const checkoutUrl = size
-    ? `${productUrl(product.handle)}?size=${encodeURIComponent(size)}`
-    : productUrl(product.handle);
+  const available = isProductAvailable(product);
+  const canAdd = available && Boolean(size);
+
+  function handleAddToCart() {
+    if (!canAdd) return;
+    addItem(product, { size, quantity: 1 });
+  }
+
+  function handleBuyNow() {
+    if (!canAdd) return;
+    addItem(product, { size, quantity: 1 });
+    window.open(buildCartCheckoutUrl([{ variantId: product.variantId, quantity: 1 }]), "_blank", "noopener,noreferrer");
+  }
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-16 md:px-8 md:py-24">
@@ -79,6 +88,11 @@ export default function Product() {
         </div>
 
         <div>
+          {!available && (
+            <span className="mb-4 inline-block rounded-full bg-charcoal/10 px-3 py-1 text-xs font-medium uppercase tracking-wide text-charcoal/70">
+              Not available in store yet
+            </span>
+          )}
           <h1 className="font-display text-3xl font-medium text-charcoal md:text-4xl">
             {product.name}
           </h1>
@@ -106,31 +120,41 @@ export default function Product() {
                 </button>
               ))}
             </div>
-            {!size && (
+            {available && !size && (
               <p className="mt-2 text-xs text-charcoal/50">Select a size to continue.</p>
             )}
           </div>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a
-              href={checkoutUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block rounded-full border border-charcoal px-8 py-3.5 text-center text-sm font-medium uppercase tracking-wide text-charcoal transition-colors hover:bg-charcoal hover:text-cream"
+            <button
+              type="button"
+              onClick={handleAddToCart}
+              disabled={!canAdd}
+              className={`inline-block rounded-full border px-8 py-3.5 text-center text-sm font-medium uppercase tracking-wide transition-colors ${
+                canAdd
+                  ? "border-charcoal text-charcoal hover:bg-charcoal hover:text-cream"
+                  : "cursor-not-allowed border-charcoal/20 text-charcoal/40"
+              }`}
             >
               Add to Cart
-            </a>
-            <a
-              href={checkoutUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block rounded-full bg-charcoal px-8 py-3.5 text-center text-sm font-medium uppercase tracking-wide text-cream transition-colors hover:bg-brown"
+            </button>
+            <button
+              type="button"
+              onClick={handleBuyNow}
+              disabled={!canAdd}
+              className={`inline-block rounded-full px-8 py-3.5 text-center text-sm font-medium uppercase tracking-wide transition-colors ${
+                canAdd
+                  ? "bg-charcoal text-cream hover:bg-brown"
+                  : "cursor-not-allowed bg-charcoal/20 text-charcoal/40"
+              }`}
             >
               Buy Now
-            </a>
+            </button>
           </div>
           <p className="mt-3 text-xs text-charcoal/50">
-            Opens our Shopify store to complete checkout.
+            {available
+              ? "Buy Now opens our Shopify store to complete checkout."
+              : "This product isn't in the Shopify store yet — check back soon."}
           </p>
         </div>
       </div>

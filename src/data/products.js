@@ -1,8 +1,11 @@
 // Static placeholder product data.
 // Shape mirrors what a Shopify Storefront API product-fetch would return
-// (id, handle, name, price, description, images, sizes, collection) so
-// `lib/productService.js` can be repointed at a real API without touching
-// any component.
+// (id, handle, variantId, name, price, description, images, sizes, collection)
+// so `lib/productService.js` can be repointed at a real API without touching
+// any component. `variantId` is null because none of these products exist
+// in the Shopify store yet — `context/CartContext.jsx` treats a null
+// variantId as "not available in store yet" and blocks add-to-cart until
+// the real Storefront API is wired up and returns real variant IDs.
 
 const SIZES = ["S", "M", "L", "XL"];
 
@@ -10,6 +13,7 @@ export const products = [
   {
     id: "p1",
     handle: "midnight-grid-tee",
+    variantId: null,
     name: "Midnight Grid Tee",
     price: 38,
     description:
@@ -24,6 +28,7 @@ export const products = [
   {
     id: "p2",
     handle: "riverside-badge-tee",
+    variantId: null,
     name: "Riverside Badge Tee",
     price: 36,
     description:
@@ -38,6 +43,7 @@ export const products = [
   {
     id: "p3",
     handle: "harbor-lines-tee",
+    variantId: null,
     name: "Harbor Lines Tee",
     price: 38,
     description:
@@ -52,6 +58,7 @@ export const products = [
   {
     id: "p4",
     handle: "summit-club-tee",
+    variantId: null,
     name: "Summit Club Tee",
     price: 34,
     description:
@@ -66,6 +73,7 @@ export const products = [
   {
     id: "p5",
     handle: "uptown-blocks-tee",
+    variantId: null,
     name: "Uptown Blocks Tee",
     price: 38,
     description:
@@ -80,6 +88,7 @@ export const products = [
   {
     id: "p6",
     handle: "field-station-tee",
+    variantId: null,
     name: "Field Station Tee",
     price: 34,
     description:
@@ -94,6 +103,7 @@ export const products = [
   {
     id: "p7",
     handle: "tonal-form-tee",
+    variantId: null,
     name: "Tonal Form Tee",
     price: 36,
     description:
@@ -108,6 +118,7 @@ export const products = [
   {
     id: "p8",
     handle: "greyscale-grid-tee",
+    variantId: null,
     name: "Greyscale Grid Tee",
     price: 36,
     description:

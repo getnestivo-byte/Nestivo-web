@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useCart } from "../context/CartContext.jsx";
 import { CartIcon, MenuIcon, CloseIcon } from "./icons.jsx";
 
 const LINKS = [
@@ -10,6 +11,7 @@ const LINKS = [
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
+  const { count, open: openCart } = useCart();
 
   return (
     <header className="sticky top-0 z-50 border-b border-charcoal/10 bg-cream/90 backdrop-blur">
@@ -35,8 +37,17 @@ export default function Nav() {
         </nav>
 
         <div className="flex items-center gap-4">
-          <button aria-label="Cart" className="text-charcoal transition-opacity hover:opacity-70">
+          <button
+            aria-label={`Cart${count > 0 ? `, ${count} item${count === 1 ? "" : "s"}` : ""}`}
+            onClick={openCart}
+            className="relative text-charcoal transition-opacity hover:opacity-70"
+          >
             <CartIcon className="h-6 w-6" />
+            {count > 0 && (
+              <span className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-charcoal px-1 text-[10px] font-medium text-cream">
+                {count}
+              </span>
+            )}
           </button>
           <button
             aria-label="Toggle menu"
